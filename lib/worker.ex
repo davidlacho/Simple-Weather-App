@@ -46,6 +46,7 @@ defmodule Metex.Worker do
   end
 
   defp apikey do
+    # NOT AN ACTIVE API KEY
     "acf93ae3129af90fbc1c97864af77c3d"
   end
 end
