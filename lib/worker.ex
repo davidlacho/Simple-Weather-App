@@ -17,7 +17,9 @@ defmodule Metex.Worker do
   end
 
   defp parse_response({:ok, %HTTPoison.Response{body: body, status_code: 200}}) do
-    body |> JSON.decode! |> compute_temperature
+    body
+    |> JSON.decode!
+    |> compute_temperature
   end
 
   defp parse_response(a) do
@@ -33,7 +35,17 @@ defmodule Metex.Worker do
     end
   end
 
+  def loop do
+    receive do
+      {sender_pid, location} ->
+        send(sender_pid, {:ok, temperature_of(location)})
+      _ ->
+        IO.puts "don't know how to process this message"
+    end
+    loop
+  end
+
   defp apikey do
-    "API KEY"
+    "acf93ae3129af90fbc1c97864af77c3d"
   end
 end
